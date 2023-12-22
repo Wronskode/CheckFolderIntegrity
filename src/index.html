@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="stylesheet" href="styles.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Check Folder Integrity</title>
+    <script type="module" src="/main.js" defer></script>
+    <style>
+      .logo.github:hover {
+        filter: drop-shadow(0 0 2em #1b1b1b);
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="container">
+      <!-- <h1>Welcome to Tauri!</h1> -->
+
+      <div class="row">
+        <!-- <a href="https://tauri.app" target="_blank">
+          <img src="/assets/tauri.svg" class="logo tauri" alt="Tauri logo" />
+        </a> -->
+        <a
+          href="https://github.com/Wronskode/CheckFolderIntegrity"
+          target="_blank"
+        >
+          <img
+            src="/assets/github.svg"
+            class="logo github"
+            alt="JavaScript logo"
+          />
+        </a>
+      </div>
+
+      <p>Click on the Github logo to go at the repository</p>
+
+      <form class="row" id="verify-form">
+        <input
+          id="folder1-input"
+          placeholder="Path of the first folder"
+          size="20"
+        />
+        <input
+          id="folder2-input"
+          placeholder="Path of the second folder"
+          size="20"
+        />
+        <button type="submit" id="verify-button">Check</button>
+        <div>
+          <input type="checkbox" id="secure" />
+          <label for="secure">Secure</label>
+        </div>
+      </form>
+      <p>Be sure to include "/" at the end of your paths (or "\" under Windows).</p>
+      <p id="verify"></p>
+    </div>
+  </body>
+</html>
