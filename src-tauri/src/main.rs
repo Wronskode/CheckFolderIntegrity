@@ -1,5 +1,6 @@
 // Prevents additional console window on Windows in release, DO NOT REMOVE!!
 #![cfg_attr(not(debug_assertions), windows_subsystem = "windows")]
+use serde_json::{json, Value};
 // Learn more about Tauri commands at https://tauri.app/v1/guides/features/command
 use sha2::{Digest, Sha256};
 use std::collections::{HashMap, HashSet};
@@ -14,10 +15,10 @@ fn main() {
         .invoke_handler(tauri::generate_handler![verify])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");
-}
+}   
 
 #[tauri::command]
-async fn verify(folder1: String, folder2: String, secure: bool) -> String {
+async fn verify(folder1: String, folder2: String, secure: bool) -> Value {
     let now = Instant::now();
     let excluded_folders = Arc::new(Mutex::new(HashSet::new()));
     excluded_folders
@@ -45,10 +46,15 @@ async fn verify(folder1: String, folder2: String, secure: bool) -> String {
         Ok(hm) => hm,
         Err(_) => HashMap::new()
     };
+    // TODO : Optimize this part
     let mut files_only_in_f1: Vec<&str> = vec![];
     let mut files_only_in_f2: Vec<&str> = vec![];
     let mut diff_files: Vec<&str> = vec![];
+    let mut all_files = HashSet::new();
+    let mut files_in_f1 = vec![];
+    let mut files_in_f2 = vec![];
     for element in &f1 {
+        files_in_f1.push(element.0);
         if !f2.contains_key(element.0) {
             files_only_in_f1.push(element.0.to_str().unwrap());
         }
@@ -57,25 +63,26 @@ async fn verify(folder1: String, folder2: String, secure: bool) -> String {
                 diff_files.push(element.0.to_str().unwrap());
             }
         }
+        all_files.insert(element.0);
     }
     for element in &f2 {
+        files_in_f2.push(element.0);
         if !f1.contains_key(element.0) {
             files_only_in_f2.push(element.0.to_str().unwrap());
         }
+        all_files.insert(element.0);
     }
-    let result = 
-    format!("Files only presents in folder1 : <br>")+
-    &format!("{:?}", files_only_in_f1)+
-    &format!("<br>Files only presents in folder2 : <br>")+
-    &format!("{:?}", files_only_in_f2)+
-    &format!("<br>Files differents but with the same path and name : <br>")+
-    &format!("{:?}<br>", diff_files)+
-    &format!(
-        "size of folder1 : {}<br>size of folder2 : {}<br>time : {:?}",
-        f1.len(),
-        f2.len(),
-        now.elapsed()
-    );
+    let result = json!({
+        "only folder1": files_only_in_f1,
+        "only folder2": files_only_in_f2,
+        "different files": diff_files,
+        "Length of folder1": f1.len(),
+        "Length of folder2": f2.len(),
+        "time": format!("{:?}", now.elapsed()),
+        "all files": all_files,
+        "f1_files": files_in_f1,
+        "f2_files": files_in_f2
+    });
     return result;
 }
 
