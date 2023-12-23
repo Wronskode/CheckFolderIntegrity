@@ -114,4 +114,6 @@ table {
 td, th {
   border: 1px solid black;
   padding: 15px;
+  word-wrap: break-word;
+  max-width: 150px;
 }

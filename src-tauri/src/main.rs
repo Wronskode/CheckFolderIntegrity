@@ -1,7 +1,7 @@
 // Prevents additional console window on Windows in release, DO NOT REMOVE!!
 #![cfg_attr(not(debug_assertions), windows_subsystem = "windows")]
-use serde_json::{json, Value};
 // Learn more about Tauri commands at https://tauri.app/v1/guides/features/command
+use serde_json::{json, Value};
 use sha2::{Digest, Sha256};
 use std::collections::{HashMap, HashSet};
 use std::fs::File;
@@ -18,20 +18,50 @@ fn main() {
 }   
 
 #[tauri::command]
-async fn verify(folder1: String, folder2: String, secure: bool) -> Value {
+async fn verify(mut folder1: String, mut folder2: String, secure: bool) -> Value {
     let now = Instant::now();
+    let is_unix = cfg!(unix);
+    match folder1.chars().last() {
+        Some(k) => {
+            if k != '/' {
+                if is_unix {
+                    folder1.push('/');
+                }
+            }
+            else if k != '\\' {
+                if !is_unix {
+                    folder1.push('\\');
+                }
+            }
+        },
+        None => ()
+    }
+    match folder2.chars().last() {
+        Some(k) => {
+            if k != '/' {
+                if is_unix {
+                    folder2.push('/');
+                }
+            }
+            else if k != '\\' {
+                if !is_unix {
+                    folder1.push('\\');
+                }
+            }
+        },
+        None => ()
+    }
     let excluded_folders = Arc::new(Mutex::new(HashSet::new()));
-    excluded_folders
-        .lock()
-        .unwrap()
-        .insert("System Volume Information".to_string()); // Add here excluded folders like that
+    // excluded_folders
+    //     .lock()
+    //     .unwrap()
+    //     .insert("System Volume Information".to_string()); // Add here excluded folders like that
     let t1 = {
         let excluded_folders = excluded_folders.clone();
         thread::spawn(move || {
             check_folder(folder1.clone().into(), folder1.len(), secure, excluded_folders)
         })
     };
-
     let t2 = {
         let excluded_folders = excluded_folders.clone();
         thread::spawn(move || {
@@ -46,10 +76,11 @@ async fn verify(folder1: String, folder2: String, secure: bool) -> Value {
         Ok(hm) => hm,
         Err(_) => HashMap::new()
     };
+
     // TODO : Optimize this part
     let mut files_only_in_f1: Vec<&str> = vec![];
     let mut files_only_in_f2: Vec<&str> = vec![];
-    let mut diff_files: Vec<&str> = vec![];
+    let mut diff_files = HashSet::new();
     let mut all_files = HashSet::new();
     let mut files_in_f1 = vec![];
     let mut files_in_f2 = vec![];
@@ -60,7 +91,7 @@ async fn verify(folder1: String, folder2: String, secure: bool) -> Value {
         }
         else {
             if element.1 != f2.get(element.0).unwrap() {
-                diff_files.push(element.0.to_str().unwrap());
+                diff_files.insert(element.0.to_str().unwrap());
             }
         }
         all_files.insert(element.0);
@@ -69,6 +100,11 @@ async fn verify(folder1: String, folder2: String, secure: bool) -> Value {
         files_in_f2.push(element.0);
         if !f1.contains_key(element.0) {
             files_only_in_f2.push(element.0.to_str().unwrap());
+        }
+        else {
+            if element.1 != f1.get(element.0).unwrap() {
+                diff_files.insert(element.0.to_str().unwrap());
+            }
         }
         all_files.insert(element.0);
     }
@@ -81,7 +117,8 @@ async fn verify(folder1: String, folder2: String, secure: bool) -> Value {
         "time": format!("{:?}", now.elapsed()),
         "all files": all_files,
         "f1_files": files_in_f1,
-        "f2_files": files_in_f2
+        "f2_files": files_in_f2,
+        "excluded folders": *excluded_folders
     });
     return result;
 }
@@ -91,6 +128,7 @@ fn check_folder(path: PathBuf, len: usize, secure: bool, excluded_folders: Arc<M
     let folder = match fs::read_dir(&path) {
         Err(_) => {
             println!("Unable to open this directory {:?}\n(verify permissions)", path);
+            excluded_folders.lock().unwrap().insert(path.to_str().unwrap().to_string());
             return files_hashs;
         },
         Ok(folder) => folder
