@@ -105,6 +105,8 @@ async fn verify(mut folder1: String, mut folder2: String, secure: bool) -> Value
         }
         all_files.insert(element.0);
     }
+    let mut all_files: Vec<&PathBuf>  = all_files.into_iter().collect();
+    all_files.sort();
     let result = json!({
         "only folder1": files_only_in_f1,
         "only folder2": files_only_in_f2,

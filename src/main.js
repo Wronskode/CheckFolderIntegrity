@@ -39,7 +39,7 @@ async function verify() {
   let f1_files_set = new Set(json["f1_files"]);
   let f2_files_set = new Set(json["f2_files"]);
   let different_files = new Set(json["different files"])
-  for (const file of json["all files"].sort()) {
+  for (const file of json["all files"]) {
     let i1 = f1_files_set.has(file);
     let i2 = f2_files_set.has(file);
     let i3 = different_files.has(file);
