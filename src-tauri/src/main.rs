@@ -19,16 +19,16 @@ fn main() {
 #[tauri::command]
 async fn verify(mut folder1: String, mut folder2: String, secure: bool) -> Value {
     let now = Instant::now();
-    let is_unix = cfg!(unix);
+    let is_windows = cfg!(windows);
     match folder1.chars().last() {
         Some(k) => {
             if k != '/' {
-                if is_unix {
+                if !is_windows {
                     folder1.push('/');
                 }
             }
             else if k != '\\' {
-                if !is_unix {
+                if is_windows {
                     folder1.push('\\');
                 }
             }
@@ -38,12 +38,12 @@ async fn verify(mut folder1: String, mut folder2: String, secure: bool) -> Value
     match folder2.chars().last() {
         Some(k) => {
             if k != '/' {
-                if is_unix {
+                if !is_windows {
                     folder2.push('/');
                 }
             }
             else if k != '\\' {
-                if !is_unix {
+                if is_windows {
                     folder1.push('\\');
                 }
             }
