@@ -1,0 +1,19 @@
+{
+  "version": "0.0.3",
+  "notes": "See the assets to download this version and install.",
+  "pub_date": "2023-12-25T15:50:27.255Z",
+  "platforms": {
+    "darwin-x86_64": {
+      "signature": "dW50cnVzdGVkIGNvbW1lbnQ6IHNpZ25hdHVyZSBmcm9tIHRhdXJpIHNlY3JldCBrZXkKUlVTSjJ4RkF1TklBUkR5dDBZaG1kNGw2ZnpqajUvTDJXelZoR056TklJNW1YUkQxR3hOMkY4M25wMGF6SDJlTVdSdm9aMC9EbkZsR2lYOTBUUSswZUNxdFFpRTErU0FMRHdzPQp0cnVzdGVkIGNvbW1lbnQ6IHRpbWVzdGFtcDoxNzAzNTE5MTU2CWZpbGU6Q2hlY2sgRGlyZWN0b3J5IEludGVncml0eS5hcHAudGFyLmd6Cm14d0c4YXRKMW84UFJxbm1weGZhekdlSyt6ZURObnllN0Y5bUtuZGd1TmVVM2pwVmZsOE5vWitEYVlHNTVGTDI5MHQvWXRpTXBIbjJkSlIzR0luaENnPT0K",
+      "url": "https://github.com/Wronskode/CheckFolderIntegrity/releases/download/app-v0.0.3/Check.Directory.Integrity_x64.app.tar.gz"
+    },
+    "linux-x86_64": {
+      "signature": "dW50cnVzdGVkIGNvbW1lbnQ6IHNpZ25hdHVyZSBmcm9tIHRhdXJpIHNlY3JldCBrZXkKUlVTSjJ4RkF1TklBUkhtQm9yUnduM01kU3d1T2xXWEI0UDFPSXk0ZDF6dXo5Q2xsKzUyeVczeDN5N0hvRHlaN0x4QnZBN1A3NDZua283RmNaamVaR1hCdnFlWGJjWHpjOVFFPQp0cnVzdGVkIGNvbW1lbnQ6IHRpbWVzdGFtcDoxNzAzNTE5MjkwCWZpbGU6Y2hlY2stZGlyZWN0b3J5LWludGVncml0eV8wLjAuM19hbWQ2NC5BcHBJbWFnZS50YXIuZ3oKendiSGNlVU1UWUhqK0hJQklqaVhsMG96M1ZueGhNa0kvV2p4RXkwcm95VFh0Z3hkZmNvaTBpTmM4VFMveDRoV3V1d1kyaWc2UHppMnBBR2ZoQUMwRGc9PQo=",
+      "url": "https://github.com/Wronskode/CheckFolderIntegrity/releases/download/app-v0.0.3/check-directory-integrity_0.0.3_amd64.AppImage.tar.gz"
+    },
+    "windows-x86_64": {
+      "signature": "dW50cnVzdGVkIGNvbW1lbnQ6IHNpZ25hdHVyZSBmcm9tIHRhdXJpIHNlY3JldCBrZXkKUlVTSjJ4RkF1TklBUkxaVEZrQzNkVXVUWDFTNExWUXJpRDlTYUUrMitldEREcSt4TmRsc3luVnc3enN5V0lLZktnZjRJTml1ajM0K3ZpdTNodldweGt3RDVaeDVaSHIrbHdzPQp0cnVzdGVkIGNvbW1lbnQ6IHRpbWVzdGFtcDoxNzAzNTE5NDIzCWZpbGU6Q2hlY2sgRGlyZWN0b3J5IEludGVncml0eV8wLjAuM194NjRfZW4tVVMubXNpLnppcApKclA3TDVWdmNIVjVRLzFjNU40RW0wVVYrTjFybkYyeGY0alF4cm9wWVFzNllic3R1ek9aQStuRk5ONWh5akpYdDR4dllYRm1hdVFEQnFGSmlBT25BQT09Cg==",
+      "url": "https://github.com/Wronskode/CheckFolderIntegrity/releases/download/app-v0.0.3/Check.Directory.Integrity_0.0.3_x64_en-US.msi.zip"
+    }
+  }
+}
