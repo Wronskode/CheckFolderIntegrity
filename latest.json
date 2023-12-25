@@ -1,19 +1,15 @@
 {
-  "version": "0.0.4",
+  "version": "0.0.5",
   "notes": "See the assets to download this version and install.",
-  "pub_date": "2023-12-25T18:39:52.628Z",
+  "pub_date": "2023-12-25T19:04:56.431Z",
   "platforms": {
-    "darwin-x86_64": {
-      "signature": "dW50cnVzdGVkIGNvbW1lbnQ6IHNpZ25hdHVyZSBmcm9tIHRhdXJpIHNlY3JldCBrZXkKUlVTSjJ4RkF1TklBUkFnOXZsSFFNa3l3c2l6UEExcGFBRHd3T1VYelZLZ1RQOVFIdFNzd2I4Y0NNL3FTRWYzSVNjV3J0S0VqNlNweC8rOFJhM0dlaVh4VWJDL0d5aU5VMUFZPQp0cnVzdGVkIGNvbW1lbnQ6IHRpbWVzdGFtcDoxNzAzNTI5MzI1CWZpbGU6Q2hlY2sgRGlyZWN0b3J5IEludGVncml0eS5hcHAudGFyLmd6CmFmYldyelc5NkNVSjA0QzJWVXVlR2l1RmwwZXNLYjNGbXh6YktCd2JTa3hiWTZBdVVYSUN0TGhvTlZPWU1PeHR5MlVLNURQR3ZXaGRsb3NJckdma0RnPT0K",
-      "url": "https://github.com/Wronskode/CheckFolderIntegrity/releases/download/app-v0.0.4/Check.Directory.Integrity_x64.app.tar.gz"
-    },
     "linux-x86_64": {
-      "signature": "dW50cnVzdGVkIGNvbW1lbnQ6IHNpZ25hdHVyZSBmcm9tIHRhdXJpIHNlY3JldCBrZXkKUlVTSjJ4RkF1TklBUkoxNnlUTEJSQWg2b1l6TTErWFliNXRGYU96a0pocFJ1dzNNV2dGOUNna09oMnlQaHZqanl5c1JyUTVGN09RczhqZU1wV1RCQVFablN1UmdteVVWckE0PQp0cnVzdGVkIGNvbW1lbnQ6IHRpbWVzdGFtcDoxNzAzNTI5NDE0CWZpbGU6Y2hlY2stZGlyZWN0b3J5LWludGVncml0eV8wLjAuNF9hbWQ2NC5BcHBJbWFnZS50YXIuZ3oKc0pKOEhtZGRodE82MVRQVDZ5aG5OM3pjdWx0b3phVGNXWG1JSHF4ZU14NGlqNTUrMU51aXl3U3c0WU9UVkRRdnQ1SVRndGlWQktCeC9MOFh5WXhIQ0E9PQo=",
-      "url": "https://github.com/Wronskode/CheckFolderIntegrity/releases/download/app-v0.0.4/check-directory-integrity_0.0.4_amd64.AppImage.tar.gz"
+      "signature": "dW50cnVzdGVkIGNvbW1lbnQ6IHNpZ25hdHVyZSBmcm9tIHRhdXJpIHNlY3JldCBrZXkKUlVTSjJ4RkF1TklBUkpxMEV3U3NRN245ckNURDNndXNqWm9rTmd4aVVzYW8xalB0Q1dkLzRWR1U1QlFEOHNQdGw1bVp5aVlON29WT3dCelVFQlpwMytsTVlOeG1OMmtUMlFVPQp0cnVzdGVkIGNvbW1lbnQ6IHRpbWVzdGFtcDoxNzAzNTMwODY2CWZpbGU6Y2hlY2stZGlyZWN0b3J5LWludGVncml0eV8wLjAuNV9hbWQ2NC5BcHBJbWFnZS50YXIuZ3oKNmJGMTRKUXFSRzNWTGZYajJJK2RQZGdjS2RBT1ZTRnFaQzduL0RtSCtNbDRoYjBjcmFEK3M2dXZydnBCbllzTnFZMS9QdjBjUmo2anFmczY0Z1NsQXc9PQo=",
+      "url": "https://github.com/Wronskode/CheckFolderIntegrity/releases/download/app-v0.0.5/check-directory-integrity_0.0.5_amd64.AppImage.tar.gz"
     },
     "windows-x86_64": {
-      "signature": "dW50cnVzdGVkIGNvbW1lbnQ6IHNpZ25hdHVyZSBmcm9tIHRhdXJpIHNlY3JldCBrZXkKUlVTSjJ4RkF1TklBUkoyTmNPbmpCeEI0T0psZHBaQ0dmUGV3VnJMU01ETzJDNkQyZHdmMTFzTFVsZHA5MFczOWFTM0ljSXJKMjRjR2dyejZMRVlhZEdocTcreHNnRXVOdUFnPQp0cnVzdGVkIGNvbW1lbnQ6IHRpbWVzdGFtcDoxNzAzNTI5NTg2CWZpbGU6Q2hlY2sgRGlyZWN0b3J5IEludGVncml0eV8wLjAuNF94NjRfZW4tVVMubXNpLnppcApPMjFZdE9DNGxqQVRsYzJkODFKMzRaZk5naG5kbmVwN2tWRU5DZG5PSVlTak1HUk9vMDkxMlVWM05JTmpNejRaTWJJU1ZKQzZmL09leGRwMXVBdlNDUT09Cg==",
-      "url": "https://github.com/Wronskode/CheckFolderIntegrity/releases/download/app-v0.0.4/Check.Directory.Integrity_0.0.4_x64_en-US.msi.zip"
+      "signature": "dW50cnVzdGVkIGNvbW1lbnQ6IHNpZ25hdHVyZSBmcm9tIHRhdXJpIHNlY3JldCBrZXkKUlVTSjJ4RkF1TklBUk1qUkE5NklpSkZmeXFxZ1VJTVNWbkxuN3FBWnhBVjlORG9FdHVqN0IyaFh4VUlGMmZOdVM5aEZoa2FKZEttVHFpbkJ0dFVLTHJyUWpROVFFc05Dc3dFPQp0cnVzdGVkIGNvbW1lbnQ6IHRpbWVzdGFtcDoxNzAzNTMxMDg5CWZpbGU6Q2hlY2sgRGlyZWN0b3J5IEludGVncml0eV8wLjAuNV94NjRfZW4tVVMubXNpLnppcApQU3BLbFRPU1Y1dXlLbHowZk4rVzVOVUtoR3lCS1U3Ti9GSlN6TmxiSGhidURnSnBsOHpxaXZzdXEvVGl6UTVIQm1peU9WVUxiOEkvQ3NmMEdBWk5BUT09Cg==",
+      "url": "https://github.com/Wronskode/CheckFolderIntegrity/releases/download/app-v0.0.5/Check.Directory.Integrity_0.0.5_x64_en-US.msi.zip"
     }
   }
 }
