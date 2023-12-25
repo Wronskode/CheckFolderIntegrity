@@ -16,7 +16,9 @@ tauri-build = { version = "1.5", features = [] }
 tauri = { version = "1.5", features = [ "updater", "dialog-all", "shell-open"] }
 serde = { version = "1.0", features = ["derive"] }
 serde_json = "1.0"
-sha2 = { version = "0.10.8", features = ["asm", "asm-aarch64"] }
+sha2 = { version = "0.10.8" }
+[target.'cfg(all(any(target_arch = "aarch64", target_arch = "x86", target_arch = "x86_64"), not(target_env = "msvc")))'.dependencies]
+sha2 = { version = "0.10.8", features = ["asm"] }
 
 [features]
 # this feature is used for production builds or when `devPath` points to the filesystem
