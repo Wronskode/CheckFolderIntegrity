@@ -44,7 +44,7 @@ async fn verify(mut folder1: String, mut folder2: String, secure: bool) -> Value
             }
             else if k != '\\' {
                 if is_windows {
-                    folder1.push('\\');
+                    folder2.push('\\');
                 }
             }
         },
