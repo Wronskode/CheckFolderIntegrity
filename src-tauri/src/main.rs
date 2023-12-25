@@ -6,7 +6,6 @@ use sha2::{Digest, Sha256};
 use std::collections::{HashMap, HashSet};
 use std::fs::File;
 use std::path::PathBuf;
-use std::sync::{Arc, Mutex};
 use std::thread;
 use std::time::Instant;
 use std::{fs, io};
@@ -51,10 +50,8 @@ async fn verify(mut folder1: String, mut folder2: String, secure: bool) -> Value
         },
         None => ()
     }
-    let excluded_folders = Arc::new(Mutex::new(HashSet::new()));
+    let excluded_folders = HashSet::new(); // mut
     // excluded_folders
-    //     .lock()
-    //     .unwrap()
     //     .insert("System Volume Information".to_string()); // Add here excluded folders like that
     let t1 = {
         let excluded_folders = excluded_folders.clone();
@@ -68,15 +65,15 @@ async fn verify(mut folder1: String, mut folder2: String, secure: bool) -> Value
             check_folder(folder2.clone().into(), folder2.len(), secure, excluded_folders)
         })
     };
-    let f1 = match t1.join() {
+    let (f1, mut excluded_folders) = match t1.join() {
         Ok(hm) => hm,
-        Err(_) => HashMap::new()
+        Err(_) => (HashMap::new(), HashSet::new())
     };
-    let f2 = match t2.join() {
+    let (f2, h2) = match t2.join() {
         Ok(hm) => hm,
-        Err(_) => HashMap::new()
+        Err(_) => (HashMap::new(), HashSet::new())
     };
-
+    excluded_folders.extend(h2);
     // TODO : Optimize this part
     let mut files_only_in_f1: Vec<&str> = vec![];
     let mut files_only_in_f2: Vec<&str> = vec![];
@@ -114,22 +111,22 @@ async fn verify(mut folder1: String, mut folder2: String, secure: bool) -> Value
         "different files": diff_files,
         "Length of folder1": f1.len(),
         "Length of folder2": f2.len(),
-        "time": format!("{:?}", now.elapsed()),
         "all files": all_files,
         "f1_files": files_in_f1,
         "f2_files": files_in_f2,
-        "excluded folders": *excluded_folders
+        "excluded folders": excluded_folders,
+        "time": format!("{:?}", now.elapsed())
     });
     return result;
 }
 
-fn check_folder(path: PathBuf, len: usize, secure: bool, excluded_folders: Arc<Mutex<HashSet<String>>>) -> HashMap<PathBuf, String> {
+fn check_folder(path: PathBuf, len: usize, secure: bool, mut excluded_folders: HashSet<String>) -> (HashMap<PathBuf, String>, HashSet<String>) {
     let mut files_hashs = HashMap::new();
     let folder = match fs::read_dir(&path) {
         Err(_) => {
             println!("Unable to open this directory {:?}\n(verify permissions)", path);
-            excluded_folders.lock().unwrap().insert(path.to_str().unwrap().to_string());
-            return files_hashs;
+            excluded_folders.insert(path.to_str().unwrap().to_string());
+            return (files_hashs, excluded_folders);
         },
         Ok(folder) => folder
     };
@@ -169,27 +166,18 @@ fn check_folder(path: PathBuf, len: usize, secure: bool, excluded_folders: Arc<M
         } else if file_type.is_dir() {
             // To skip excluded folders
             if  excluded_folders
-                .lock()
-                .unwrap()
                 .contains(&f.file_name().to_str().unwrap().to_string())
             {
-                return files_hashs;
+                return (files_hashs, excluded_folders);
             }
-            // Idk if create a thread here is a good idea
-            let excluded_folders = excluded_folders.clone();
-            let h = 
-            match thread::spawn(move || check_folder(f.path(), len, secure, excluded_folders)).join() {
-                Ok(hash_map) => hash_map,
-                Err(_) => continue
-            };
-            // Replace h by that if you think it's a bad idea to create a thread
-            // let h = check_folder(f.path(), len, secure, excluded_folders);
-            for element in h {
+            let h = check_folder(f.path(), len, secure, excluded_folders.clone());
+            for element in h.0 {
                 files_hashs.insert(element.0, element.1);
             }
+            excluded_folders.extend(h.1);
         }
     }
-    files_hashs
+    (files_hashs, excluded_folders)
 }
 
 fn hash_file(path: PathBuf) -> Result<String, std::io::Error> {

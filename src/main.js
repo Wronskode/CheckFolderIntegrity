@@ -4,20 +4,29 @@ let folder1_js;
 let folder2_js;
 
 async function verify() {
+  let loader = document.querySelector("#loader");
   verif.innerHTML = "";
+  loader.classList.remove("hide-loader");
   folder1_js = document.querySelector("#folder1-input").value;
   folder2_js = document.querySelector("#folder2-input").value;
   let security = document.querySelector("#secure").checked;
-  let result = await invoke("verify", {folder1: folder1_js, folder2: folder2_js, secure: security});
-  let json = JSON.parse(JSON.stringify(result));
-  console.log(json);
+  let json = await invoke("verify", {folder1: folder1_js, folder2: folder2_js, secure: security});
+  loader.classList.add("hide-loader");
   let files_diff = json["different files"];
   if (files_diff.length == 0 && json["only folder1"].length == 0 && json["only folder2"].length == 0) {
-    verif.innerHTML = "All the files are identical and are present in each of the directories. ✅";
+    let stringResult = "All the files are identical and are present in each of the directories. ✅";
+    verif.innerHTML = stringResult+"<br> time: "+json["time"]
+  +"<br> number of files in folder 1 : " + json["Length of folder1"]
+  +"<br> number of files in folder 2 : " + json["Length of folder2"]
+  +"<br> excluded folders : " + json["excluded folders"].map((element) => "<br>"+element);
     return;
   }
   if (json["only folder1"].length == json["Length of folder1"] && json["only folder2"].length == json["Length of folder2"] ) {
-    verif.innerHTML = "All the files are different (perhaps one of the folders is included in the other?).";
+    let stringResult = "All the files are different (perhaps one of the folders is included in the other?). ❌";
+    verif.innerHTML = stringResult+"<br> time: "+json["time"]
+    +"<br> number of files in folder 1 : " + json["Length of folder1"]
+    +"<br> number of files in folder 2 : " + json["Length of folder2"]
+    +"<br> excluded folders : " + json["excluded folders"].map((element) => "<br>"+element);
     return;
   }
   let stringResult = `<center><table> <tbody> 
@@ -59,9 +68,9 @@ async function verify() {
       stringResult += `</tr>`;
   }
   verif.innerHTML = stringResult+`</table></center>`+"<br> time: "+json["time"]
-  +"<br> size of folder 1 : " + json["Length of folder1"]
-  +"<br> size of folder 2 : " + json["Length of folder2"]
-  +"<br> excluded folders : " + json["excluded folders"];
+  +"<br> number of files in folder 1 : " + json["Length of folder1"]
+  +"<br> number of files in folder 2 : " + json["Length of folder2"]
+  +"<br> excluded folders : " + json["excluded folders"].map((element) => "<br>"+element);
 }
 
 window.addEventListener("DOMContentLoaded", () => {
