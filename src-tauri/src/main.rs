@@ -54,15 +54,15 @@ async fn verify(mut folder1: String, mut folder2: String, secure: bool) -> Value
     // excluded_folders
     //     .insert("System Volume Information".to_string()); // Add here excluded folders like that
     let t1 = {
-        let excluded_folders = excluded_folders.clone();
+        let mut excluded_folders = excluded_folders.clone();
         thread::spawn(move || {
-            check_folder(folder1.clone().into(), folder1.len(), secure, excluded_folders)
+            check_folder(folder1.clone().into(), folder1.len(), secure, &mut excluded_folders)
         })
     };
     let t2 = {
-        let excluded_folders = excluded_folders.clone();
+        let mut excluded_folders = excluded_folders.clone();
         thread::spawn(move || {
-            check_folder(folder2.clone().into(), folder2.len(), secure, excluded_folders)
+            check_folder(folder2.clone().into(), folder2.len(), secure, &mut excluded_folders)
         })
     };
     let (f1, mut excluded_folders) = match t1.join() {
@@ -122,13 +122,13 @@ async fn verify(mut folder1: String, mut folder2: String, secure: bool) -> Value
     return result;
 }
 
-fn check_folder(path: PathBuf, len: usize, secure: bool, mut excluded_folders: HashSet<String>) -> (HashMap<PathBuf, String>, HashSet<String>) {
+fn check_folder(path: PathBuf, len: usize, secure: bool, excluded_folders: &mut HashSet<String>) -> (HashMap<PathBuf, String>, HashSet<String>) {
     let mut files_hashs = HashMap::new();
     let folder = match fs::read_dir(&path) {
         Err(_) => {
             println!("Unable to open this directory {:?}\n(verify permissions)", path);
             excluded_folders.insert(path.to_str().unwrap().to_string());
-            return (files_hashs, excluded_folders);
+            return (files_hashs, excluded_folders.clone());
         },
         Ok(folder) => folder
     };
@@ -170,16 +170,16 @@ fn check_folder(path: PathBuf, len: usize, secure: bool, mut excluded_folders: H
             if  excluded_folders
                 .contains(&f.file_name().to_str().unwrap().to_string())
             {
-                return (files_hashs, excluded_folders);
+                return (files_hashs, excluded_folders.clone());
             }
-            let h = check_folder(f.path(), len, secure, excluded_folders.clone());
+            let h = check_folder(f.path(), len, secure, excluded_folders);
             for element in h.0 {
                 files_hashs.insert(element.0, element.1);
             }
             excluded_folders.extend(h.1);
         }
     }
-    (files_hashs, excluded_folders)
+    (files_hashs, excluded_folders.clone())
 }
 
 fn hash_file(path: PathBuf) -> Result<String, std::io::Error> {
