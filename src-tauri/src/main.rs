@@ -27,7 +27,7 @@ async fn verify(mut folder1: String, mut folder2: String, secure: bool) -> Value
                     folder1.push('/');
                 }
             }
-            else if k != '\\' {
+            if k != '\\' {
                 if is_windows {
                     folder1.push('\\');
                 }
@@ -42,7 +42,7 @@ async fn verify(mut folder1: String, mut folder2: String, secure: bool) -> Value
                     folder2.push('/');
                 }
             }
-            else if k != '\\' {
+            if k != '\\' {
                 if is_windows {
                     folder2.push('\\');
                 }
@@ -50,9 +50,9 @@ async fn verify(mut folder1: String, mut folder2: String, secure: bool) -> Value
         },
         None => ()
     }
-    let excluded_folders = HashSet::new(); // mut
-    // excluded_folders
-    //     .insert("System Volume Information".to_string()); // Add here excluded folders like that
+    let mut excluded_folders = HashSet::new(); // mut
+    excluded_folders
+        .insert("System Volume Information".to_string()); // Add here excluded folders like that
     let t1 = {
         let mut excluded_folders = excluded_folders.clone();
         thread::spawn(move || {
@@ -158,12 +158,12 @@ fn check_folder(path: PathBuf, len: usize, secure: bool, excluded_folders: &mut 
                     Err(_) => continue
                 };
                 let size = metadatas.len().to_string();
-                let date = match metadatas.modified() {
-                    Ok(date) => date,
-                    Err(_) => continue
-                };
-                let date_str = format!("{:?}", date);
-                files_hashs.insert(relative_path.into(), date_str + " " + &size);
+                // let date = match metadatas.modified() {
+                //     Ok(date) => date,
+                //     Err(_) => continue
+                // };
+                // let date_str = format!("{:?}", date);
+                files_hashs.insert(relative_path.into(), size);
             }
         } else if file_type.is_dir() {
             // To skip excluded folders
